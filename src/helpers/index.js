@@ -1,0 +1,1 @@
+export { fetchify } from './fetchify';
