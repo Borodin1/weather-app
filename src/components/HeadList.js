@@ -1,16 +1,36 @@
-import React from 'react';
+// Core
+import React, { useEffect, useState } from 'react';
+
+// MobX
 import { observer } from 'mobx-react-lite';
-import { Head, CurrentWeather } from '.';
+import { runInAction } from 'mobx';
+// Components
+import { Head, CurrentWeather } from './Head';
+
+// Hooks
 import { useGetWeather } from '../hooks/useGetWeather';
-import { store } from '../lib/mobx';
+import { useStore } from '../hooks/useStore';
+
+// helpers
 import { fetchify } from '../helpers';
 
 
 export const HeadList = observer(() => {
     const { data, isFetched } = useGetWeather();
+    const { weatherStore } = useStore();
+    const [filterDays, setFilterDays] = useState(null);
 
+    useEffect(() => {
+        runInAction(() => {
+            if (weatherStore.filtrationProperties) {
+                setFilterDays(data[ 0 ]);
+            }
+        });
+    }, [weatherStore.filtrationProperties]);
 
-    const currentDate = data.filter((day) => day.id === store.selectedDayId);
+    console.log(weatherStore.selectedDayId);
+
+    const currentDate = data.filter((day) => day.id === weatherStore.selectedDayId);
 
     const renderJSX = currentDate.map((days) => {
         return (

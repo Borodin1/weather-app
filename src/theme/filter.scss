@@ -45,6 +45,10 @@
     cursor: initial;
 }
 
+input[type="radio"]{
+    display: none;
+}
+
 .filter .custom-input {
     margin-bottom: 26px;
 }

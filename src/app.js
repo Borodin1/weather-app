@@ -1,20 +1,22 @@
 // Components
 
+import { observer } from 'mobx-react-lite';
 import {
-    Filter, Forecast, HeadList, Weather,
+    Forecast, HeadList,
 } from './components';
+import { FilterWeather } from './forms/FilterWeather';
 
 
 // Instruments
 
 
-export const App = () => {
+export const App = observer(() => {
     return (
         <main >
-            <Filter />
+            <FilterWeather />
             <HeadList />
             <Forecast />
         </main>
     );
-};
+});
 

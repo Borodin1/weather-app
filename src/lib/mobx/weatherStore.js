@@ -1,43 +1,45 @@
-// Core
-import { makeAutoObservable } from 'mobx';
-import { computedFn } from 'mobx-utils';
+import {  computed, makeAutoObservable } from 'mobx';
 
 export class WeatherStore {
-    type = '';
-    minTemperature = '';
-    maxTemperature = '';
     isFiltered = false;
     dayId = '';
+    activeBox = '';
+    filtrationProp = null;
 
     constructor() {
-        this
-            .filteredDays = computedFn((days) => {
-                const filteredDays = days.filter((day) => {
-                    const isCorrectType = this.type
-                        ? this.type === day.type
-                        : true;
-                    const isCorrectMinTemperature = this.minTemperature
-                        ? this.minTemperature <= String(day.temperature)
-                        : true;
-                    const isCorrectMaxTemperature = this.maxTemperature
-                        ? this.maxTemperature >= String(day.temperature)
-                        : true;
-
-                    return (
-                        isCorrectType
-                    && isCorrectMinTemperature
-                    && isCorrectMaxTemperature
-                    );
-                });
-
-                return filteredDays;
-            });
-
-        makeAutoObservable(this);
+        makeAutoObservable(
+            this,
+            { rootStore: false },
+            // { filtrationProp: computed },
+            {
+                autoBind: true,
+            },
+        );
     }
+
+    get filtrationProperties() {
+        return this.filtrationProp;
+    }
+
+    setFiltrationProperties(props) {
+        this.filtrationProp = props;
+    }
+
+    resetFilter() {
+        this.filtrationProp = null;
+    }
+
 
     setType(type) {
         this.type = type;
+    }
+
+    get activeCheckbox() {
+        return this.activeBox;
+    }
+
+    setActiveCheckbox(type) {
+        this.activeBox = type;
     }
 
     setMinTemperature(temp) {
@@ -48,39 +50,25 @@ export class WeatherStore {
         this.maxTemperature = temp;
     }
 
-    applyFilter(filter) {
-        if (filter.type) {
-            this.type = filter.type;
-        }
-
-        if (filter.minTemperature) {
-            this.minTemperature = filter.minTemperature;
-        }
-
-        if (filter.maxTemperature) {
-            this.maxTemperature = filter.maxTemperature;
-        }
-
-        this.isFiltered = true;
-    }
 
     get isFormBlocked() {
-        return this.type === '' && this.minTemperature === '' && this.maxTemperature === '';
+        return (
+            this.type === ''
+            && this.minTemperature === ''
+            && this.maxTemperature === ''
+        );
     }
 
     get selectedDayId() {
         return this.dayId;
     }
 
-    setSelectedDayId(id) {
-        this.dayId = id;
+    setSelectedDayId(day) {
+        this.dayId = day;
     }
 
-    resetFilter() {
-        this.maxTemperature = '';
-        this.minTemperature = '';
-        this.type = '';
-        this.isFiltered = false;
+    get selectedType() {
+        return this.type;
     }
 }
 

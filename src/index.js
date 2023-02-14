@@ -5,7 +5,7 @@ import { configure } from 'mobx';
 
 // Components
 import { App } from './app';
-import { Provider } from './lib/Provider';
+import {  StoreProvider } from './lib/storeContext';
 
 // Instruments
 import './theme/index.scss';
@@ -19,11 +19,11 @@ configure({
 });
 
 render(
-    <Provider>
-        <QueryClientProvider client = { queryClient }>
+    <QueryClientProvider client = { queryClient }>
+        <StoreProvider>
             <App />
-        </QueryClientProvider>
-    </Provider>,
+        </StoreProvider>
+    </QueryClientProvider>,
     document.getElementById('root'),
     () => {
         // eslint-disable-next-line no-console

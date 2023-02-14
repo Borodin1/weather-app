@@ -1,19 +1,80 @@
-export const FilterWeather = () => {
+// Core
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import _ from 'lodash';
+import { observer } from 'mobx-react-lite';
+import { runInAction } from 'mobx';
+import { useStore } from '../hooks/useStore';
+
+// other
+import { Input } from '../components/elements/input';
+
+
+export const FilterWeather = observer(() => {
+    const [activeCheckBox, setActiveCheckbox] = useState('');
+    const { weatherStore } = useStore();
+    const {
+        register, handleSubmit, watch, formState, reset,
+    } = useForm({
+        defaultValues: {
+            minTemp: null,
+            maxTemp: null,
+        },
+    });
+    const valueRadio = {
+        cloudy: 'cloudy',
+        sunny:  'sunny',
+    };
+
+    const onReset = () => {
+        reset();
+        weatherStore.resetFilter();
+    };
+
+    const onSubmit = (data) => {
+        weatherStore.setFiltrationProperties(data);
+    };
+
+
     return (
-        <div className = 'filter'>
-            <span className = 'checkbox'>Облачно</span>
-            <span className = 'checkbox'>Солнечно</span>
-            <p className = 'custom-input'>
-                <label htmlFor = 'min-temperature'>Минимальная температура</label>
-                <input
-                    id = 'min-temperature' type = 'number' />
-            </p>
-            <p className = 'custom-input'>
-                <label htmlFor = 'min-temperature'>Максимальная температура</label>
-                <input
-                    id = 'max-temperature' type = 'number' />
-            </p>
-            <button disabled = 'disabled'>Отфильтровать</button>
-        </div>
+        <form
+            className = 'filter'
+            onSubmit = { handleSubmit(onSubmit) }>
+
+            <Input
+                type = 'radio'
+                label = 'Облачно'
+                setActiveCheckbox = { setActiveCheckbox }
+                selected = { activeCheckBox === valueRadio.cloudy }
+                value = { valueRadio.cloudy }
+                register = { register('typeRadio') } />
+
+            <Input
+                type = 'radio'
+                label = 'Солнечно'
+                setActiveCheckbox = { setActiveCheckbox }
+                selected = { activeCheckBox === valueRadio.sunny }
+                value = { valueRadio.sunny }
+                register = { register('typeRadio') } />
+
+
+            <Input
+                type = 'number'
+                register = { register('minTemp') }
+                label = 'Минимальная температура' />
+
+            <Input
+                type = 'number'
+                register = { register('maxTemp') }
+                label = 'Максимальная температура' />
+
+            { !weatherStore.filtrationProperties
+                ? <button
+                    disabled = { _.isEqual(watch(), formState.defaultValues) }
+                    type = 'submit'>Отфильтровать</button>
+                : <button
+                    onClick = { onReset }>Сбросить</button>
+            }
+        </form>
     );
-};
+});
