@@ -3,12 +3,11 @@ import { format, toDate, setDefaultOptions } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { observer } from 'mobx-react-lite';
 import cx from 'classnames';
-import { useEffect } from 'react';
 import { useGetWeather } from '../../hooks/useGetWeather';
 
 // helpers
 import { fetchify } from '../../helpers';
-import { useStore } from '../../hooks/useStore';
+import { useStore } from '../../hooks';
 
 
 export const Forecast = observer(() => {

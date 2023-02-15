@@ -18,7 +18,7 @@ export const useGetWeather = () => {
     const getData = () => {
         if (isSuccess && Array.isArray(data)) {
             if (weatherStore.filtrationProperties) {
-                return [...daysFilter(weatherStore.filterProps, data)].slice(0, 7);
+                return [...daysFilter(weatherStore.filtrationProperties, data)].slice(0, 7);
             }
 
             return data.slice(0, 7);

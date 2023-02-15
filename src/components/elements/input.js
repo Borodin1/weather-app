@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../hooks/useStore';
+import { useStore } from '../../hooks';
 
 export const Input = observer((props) => {
     const { weatherStore } = useStore();

@@ -9,7 +9,7 @@ import { Head, CurrentWeather } from './Head';
 
 // Hooks
 import { useGetWeather } from '../hooks/useGetWeather';
-import { useStore } from '../hooks/useStore';
+import { useStore } from '../hooks';
 
 // helpers
 import { fetchify } from '../helpers';
@@ -28,9 +28,9 @@ export const HeadList = observer(() => {
         });
     }, [weatherStore.filtrationProperties]);
 
-    console.log(weatherStore.selectedDayId);
+    const showDay = !filterDays ? weatherStore.selectedDayId : filterDays.id;
 
-    const currentDate = data.filter((day) => day.id === weatherStore.selectedDayId);
+    const currentDate = data.filter((day) => day.id === showDay);
 
     const renderJSX = currentDate.map((days) => {
         return (

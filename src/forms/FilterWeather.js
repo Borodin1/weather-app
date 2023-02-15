@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import _ from 'lodash';
 import { observer } from 'mobx-react-lite';
-import { runInAction } from 'mobx';
-import { useStore } from '../hooks/useStore';
+import { useStore } from '../hooks';
 
 // other
 import { Input } from '../components/elements/input';
@@ -27,8 +26,9 @@ export const FilterWeather = observer(() => {
     };
 
     const onReset = () => {
-        reset();
         weatherStore.resetFilter();
+        setActiveCheckbox('');
+        reset();
     };
 
     const onSubmit = (data) => {
