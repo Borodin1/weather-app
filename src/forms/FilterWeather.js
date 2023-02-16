@@ -32,7 +32,9 @@ export const FilterWeather = observer(() => {
     };
 
     const onSubmit = (data) => {
-        weatherStore.setFiltrationProperties(data);
+        if (data.minTemp && data.maxTemp) {
+            weatherStore.setFiltrationProperties(data);
+        }
     };
 
 
