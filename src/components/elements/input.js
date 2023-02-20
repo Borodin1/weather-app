@@ -2,39 +2,17 @@ import cx from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../hooks';
 
-export const Input = observer((props) => {
-    const { weatherStore } = useStore();
-
-    const input = (
-        <input
-            type = { props.type }
-            value = { props.value }
-            { ... props.register } />
-    );
-
-    const activeClassName = cx('checkbox', {
-        selected: props.selected,
-    });
-
-
+export const Input = observer(({
+    type, value, register, label,
+}) => {
     return (
-        props.type === 'radio' ? (
-            <label
-                className = { activeClassName }
-                onClick = { !weatherStore.filtrationProperties
-                    ? () => { props.setActiveCheckbox(props.value); }
-                    : null }>
-                { props.label }
-                { input }
-            </label>
-        )
-            : (
-                <p className = 'custom-input'>
-                    <label>{ props.label }</label>
-                    { input }
-                </p>
+        <p className = 'custom-input'>
+            <label>{ label }</label>
+            <input
+                type = { type }
+                value = { value }
+                { ... register } />
+        </p>
 
-
-            )
     );
 });

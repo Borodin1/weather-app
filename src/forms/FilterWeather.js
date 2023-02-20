@@ -7,6 +7,7 @@ import { useStore } from '../hooks';
 
 // other
 import { Input } from '../components/elements/input';
+import { Radio } from '../components/elements/radio';
 
 
 export const FilterWeather = observer(() => {
@@ -43,7 +44,7 @@ export const FilterWeather = observer(() => {
             className = 'filter'
             onSubmit = { handleSubmit(onSubmit) }>
 
-            <Input
+            <Radio
                 type = 'radio'
                 label = 'Облачно'
                 setActiveCheckbox = { setActiveCheckbox }
@@ -51,7 +52,7 @@ export const FilterWeather = observer(() => {
                 value = { valueRadio.cloudy }
                 register = { register('typeRadio') } />
 
-            <Input
+            <Radio
                 type = 'radio'
                 label = 'Солнечно'
                 setActiveCheckbox = { setActiveCheckbox }

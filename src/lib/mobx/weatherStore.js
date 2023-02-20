@@ -10,7 +10,6 @@ export class WeatherStore {
         makeAutoObservable(
             this,
             { rootStore: false },
-            // { filtrationProp: computed },
             {
                 autoBind: true,
             },

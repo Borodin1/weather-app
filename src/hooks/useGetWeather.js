@@ -9,11 +9,6 @@ export const useGetWeather = () => {
     const { data, isFetched, isSuccess } = query;
     const { weatherStore } = useStore();
 
-    useEffect(() => {
-        if (Array.isArray(data) && data?.length) {
-            weatherStore.setSelectedDayId(data[ 0 ]?.id);
-        }
-    }, [data]);
 
     const getData = () => {
         if (isSuccess && Array.isArray(data)) {
@@ -24,6 +19,13 @@ export const useGetWeather = () => {
             return data.slice(0, 7);
         }
     };
+
+    useEffect(() => {
+        if (Array.isArray(data) && data?.length) {
+            weatherStore.setSelectedDayId(data[ 0 ]?.id);
+        }
+    }, [data]);
+
 
     return {
         data: Array.isArray(data) ? getData()  : [],
